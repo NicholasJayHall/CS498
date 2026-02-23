@@ -1,0 +1,55 @@
+{% extends 'our_site/base.html' %}
+
+{% block title %}Log In – Campus Lost & Found{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+  <div class="auth-card">
+
+    <h1 class="auth-title">🔑 Log In</h1>
+    <p class="auth-subtitle">Welcome back to the Lost &amp; Found board</p>
+
+    <form method="post" novalidate>
+      {% csrf_token %}
+
+      <div class="form-group">
+        <label for="{{ form.username.id_for_label }}">👤 Username</label>
+        <input type="text" name="username" id="{{ form.username.id_for_label }}"
+               class="form-control" value="{{ form.username.value|default:'' }}"
+               autofocus required>
+        {% if form.username.errors %}
+          {% for err in form.username.errors %}<p class="form-error">{{ err }}</p>{% endfor %}
+        {% endif %}
+      </div>
+
+      <div class="form-group">
+        <label for="{{ form.password.id_for_label }}">🔒 Password</label>
+        <input type="password" name="password" id="{{ form.password.id_for_label }}"
+               class="form-control" required>
+        {% if form.password.errors %}
+          {% for err in form.password.errors %}<p class="form-error">{{ err }}</p>{% endfor %}
+        {% endif %}
+      </div>
+
+      {% if form.non_field_errors %}
+        {% for err in form.non_field_errors %}
+          <div class="alert alert-error">{{ err }}</div>
+        {% endfor %}
+      {% endif %}
+
+      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">
+        🔓 Log In
+      </button>
+    </form>
+
+    <hr class="auth-divider">
+    <p style="text-align:center;font-size:0.88rem;color:var(--ink-light);">
+      Don't have an account? <a href="{% url 'register' %}">Register here</a>
+    </p>
+    <p style="text-align:center;font-size:0.88rem;color:var(--ink-light);margin-top:0.5rem;">
+      <a href="{% url 'item_list' %}">Browse the board without logging in →</a>
+    </p>
+
+  </div>
+</div>
+{% endblock %}

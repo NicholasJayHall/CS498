@@ -1,0 +1,19 @@
+{% extends 'our_site/base.html' %}
+
+{% block title %}Unsubscribed – Campus Lost & Found{% endblock %}
+
+{% block content %}
+<div class="page-wrapper">
+  <div style="max-width:500px;margin:3rem auto;">
+    <div class="paper-card" style="text-align:center;">
+      <div style="font-size:3rem;margin-bottom:1rem;">📭</div>
+      <h1 style="font-family:'Special Elite',monospace;font-size:1.5rem;margin-bottom:0.5rem;">Unsubscribed</h1>
+      <p style="color:var(--ink-light);font-style:italic;margin-bottom:1.5rem;line-height:1.6;">
+        <strong>{{ email }}</strong> has been unsubscribed from Lost &amp; Found notifications.
+        You will no longer receive email alerts.
+      </p>
+      <a href="{% url 'home' %}" class="btn btn-secondary">← Back to Home</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

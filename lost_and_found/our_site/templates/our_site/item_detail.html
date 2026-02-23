@@ -1,0 +1,136 @@
+{% extends 'our_site/base.html' %}
+
+{% block title %}{{ item.title }} – Campus Lost & Found{% endblock %}
+{% block meta_description %}{{ item.description|truncatechars:150 }}{% endblock %}
+
+{% block content %}
+<div class="page-wrapper">
+
+  <!-- Breadcrumb -->
+  <p style="font-family:'Special Elite',monospace;font-size:0.82rem;color:var(--ink-light);margin-bottom:1.5rem;">
+    <a href="{% url 'home' %}">Home</a> &rsaquo;
+    <a href="{% url 'item_list' %}">Browse Items</a> &rsaquo;
+    {{ item.title }}
+  </p>
+
+  <div class="detail-layout">
+
+    <!-- ── Left Column: Image + Description ──────────────────── -->
+    <div>
+      <!-- Status Banner -->
+      <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem;flex-wrap:wrap;">
+        <h1 style="font-family:'Special Elite',monospace;font-size:1.8rem;line-height:1.2;flex:1;">
+          {{ item.title }}
+        </h1>
+        <span class="item-status-badge badge-{{ item.status }}" style="font-size:0.85rem;padding:0.35rem 0.8rem;">
+          {{ item.get_status_display }}
+        </span>
+      </div>
+
+      <!-- Image -->
+      {% if item.image %}
+        <div class="detail-image-wrap mb-3">
+          <img src="{{ item.image.url }}" alt="{{ item.title }}">
+        </div>
+      {% else %}
+        <div class="detail-no-image mb-3">
+          {% if item.category == 'electronics' %}📱
+          {% elif item.category == 'keys' %}🔑
+          {% elif item.category == 'wallet' %}👛
+          {% elif item.category == 'backpack' %}🎒
+          {% elif item.category == 'clothing' %}👕
+          {% elif item.category == 'jewelry' %}💍
+          {% elif item.category == 'books' %}📚
+          {% elif item.category == 'sports' %}⚽
+          {% else %}❓{% endif %}
+        </div>
+      {% endif %}
+
+      <!-- Description Card -->
+      <div class="paper-card mb-3">
+        <h2 style="font-family:'Special Elite',monospace;font-size:1.1rem;margin-bottom:1rem;">📝 Description</h2>
+        <p style="line-height:1.8;white-space:pre-line;">{{ item.description }}</p>
+
+        <hr style="border:none;border-top:1px dashed #c3b090;margin:1.2rem 0;">
+
+        <div class="detail-meta-row">
+          <span class="detail-meta-label">🏷 Category</span>
+          <span>{{ item.get_category_display }}</span>
+        </div>
+        <div class="detail-meta-row">
+          <span class="detail-meta-label">📍 Location</span>
+          <span>{{ item.location }}</span>
+        </div>
+        <div class="detail-meta-row">
+          <span class="detail-meta-label">📅 Date Lost</span>
+          <span>{{ item.date_lost|date:"F j, Y" }}</span>
+        </div>
+        <div class="detail-meta-row">
+          <span class="detail-meta-label">📋 Posted</span>
+          <span>{{ item.created_at|date:"F j, Y" }} at {{ item.created_at|time:"g:i A" }}</span>
+        </div>
+        {% if item.reporter %}
+        <div class="detail-meta-row">
+          <span class="detail-meta-label">👤 Posted by</span>
+          <span>{{ item.reporter.get_full_name|default:item.reporter.username }}</span>
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Contact Card -->
+      <div class="paper-card" style="border-color:#82c9a0;background:linear-gradient(160deg,#f0faf5 0%,#e0f4ea 100%);">
+        <h2 style="font-family:'Special Elite',monospace;font-size:1.1rem;margin-bottom:0.5rem;">📧 Contact</h2>
+        <p style="font-size:0.88rem;color:var(--ink-light);margin-bottom:0.8rem;">
+          To claim this item or provide information, reach out directly:
+        </p>
+        <a href="mailto:{{ item.contact_email }}" class="btn btn-success">
+          ✉️ Email {{ item.contact_email }}
+        </a>
+      </div>
+
+      <!-- Owner Actions -->
+      {% if user.is_authenticated and user == item.reporter or user.is_staff %}
+        <div class="d-flex gap-1 flex-wrap mt-3">
+          <form method="post" action="{% url 'mark_found' item.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="btn {% if item.status == 'lost' %}btn-success{% else %}btn-secondary{% endif %}">
+              {% if item.status == 'lost' %}✅ Mark as Found{% else %}↩️ Mark as Still Lost{% endif %}
+            </button>
+          </form>
+          <a href="{% url 'delete_item' item.pk %}" class="btn btn-danger">🗑️ Delete</a>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- ── Right Column: Subscribe + Related ──────────────────── -->
+    <aside>
+      <div class="subscribe-card mb-3">
+        <h3>📬 Get Notified</h3>
+        <p>Subscribe to receive email alerts when new items are posted to the board.</p>
+        <form method="post" action="">
+          {% csrf_token %}
+          <div class="form-group" style="text-align:left;">
+            {{ subscribe_form.email }}
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;">Subscribe for Alerts</button>
+        </form>
+      </div>
+
+      <div class="paper-card">
+        <h3 style="font-family:'Special Elite',monospace;font-size:1rem;margin-bottom:1rem;">🔎 Search Similar</h3>
+        <form method="get" action="{% url 'item_list' %}">
+          <input type="hidden" name="category" value="{{ item.category }}">
+          <p style="font-size:0.85rem;color:var(--ink-light);margin-bottom:0.8rem;">
+            Browse other <strong>{{ item.get_category_display }}</strong> items on the board.
+          </p>
+          <button type="submit" class="btn btn-secondary" style="width:100%;">Browse {{ item.get_category_display }}</button>
+        </form>
+        <div style="margin-top:1rem;">
+          <a href="{% url 'item_list' %}" class="btn btn-secondary" style="width:100%;text-align:center;">← Back to Board</a>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+</div>
+{% endblock %}

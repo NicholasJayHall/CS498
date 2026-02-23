@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>New Lost Item: {{ item.title }}</title>
+  <style>
+    body { font-family: Georgia, serif; background: #c8a97e; margin: 0; padding: 20px; }
+    .wrapper { max-width: 600px; margin: 0 auto; background: #f5f0e8;
+               border: 2px solid #c3b090; border-radius: 8px;
+               box-shadow: 4px 6px 16px rgba(0,0,0,0.3); overflow: hidden; }
+    .header { background: #2c1a0e; padding: 24px 32px; border-bottom: 4px solid #1a0e07; }
+    .header h1 { color: #f5f0e8; font-size: 1.4rem; letter-spacing: 0.03em; margin: 0; }
+    .header p { color: #c8b48a; margin: 4px 0 0; font-size: 0.85rem; }
+    .body { padding: 28px 32px; }
+    .item-title { font-size: 1.4rem; font-family: 'Courier New', monospace; margin-bottom: 8px; color: #2c1a0e; }
+    .badge { display: inline-block; padding: 3px 10px; border-radius: 3px;
+             font-size: 0.75rem; font-weight: bold; text-transform: uppercase;
+             background: #fce8e6; color: #922b21; border: 1px solid #f1978e; }
+    .meta-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+    .meta-table td { padding: 8px 0; border-bottom: 1px dashed #c3b090; font-size: 0.9rem; }
+    .meta-table td:first-child { color: #5a3e28; font-weight: bold; width: 120px; }
+    .description { background: #ede6d5; border: 1px solid #c3b090; border-radius: 4px;
+                   padding: 14px 16px; font-size: 0.9rem; line-height: 1.7;
+                   color: #2c1a0e; margin: 16px 0; }
+    .cta { text-align: center; margin: 28px 0 10px; }
+    .cta a { display: inline-block; background: #2c1a0e; color: #f5f0e8;
+              text-decoration: none; padding: 12px 28px; border-radius: 4px;
+              font-family: 'Courier New', monospace; font-size: 0.9rem; letter-spacing: 0.04em;
+              border: 1px solid #1a0e07; }
+    .footer { background: #3d2b1a; padding: 16px 32px; font-family: 'Courier New', monospace;
+              font-size: 0.75rem; color: #a09070; text-align: center; border-top: 3px solid #1a0e07; }
+    .footer a { color: #c8b48a; }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+  <div class="header">
+    <h1>📋 {{ site_name }}</h1>
+    <p>A new item has been posted to the Lost &amp; Found board</p>
+  </div>
+
+  <div class="body">
+    <p style="color:#5a3e28;font-style:italic;margin-bottom:16px;">
+      Hello! Someone just posted a new item. Here are the details:
+    </p>
+
+    <div class="item-title">{{ item.title }}</div>
+    <span class="badge">{{ item.get_status_display }}</span>
+
+    <table class="meta-table">
+      <tr>
+        <td>🏷 Category</td>
+        <td>{{ item.get_category_display }}</td>
+      </tr>
+      <tr>
+        <td>📍 Location</td>
+        <td>{{ item.location }}</td>
+      </tr>
+      <tr>
+        <td>📅 Date Lost</td>
+        <td>{{ item.date_lost|date:"F j, Y" }}</td>
+      </tr>
+      <tr>
+        <td>✉️ Contact</td>
+        <td><a href="mailto:{{ item.contact_email }}" style="color:#5a3e28;">{{ item.contact_email }}</a></td>
+      </tr>
+    </table>
+
+    <div class="description">
+      <strong>Description:</strong><br>
+      {{ item.description }}
+    </div>
+
+    <div class="cta">
+      <a href="http://127.0.0.1:8000{% url 'item_detail' item.pk %}">🔍 View Full Posting</a>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>You are receiving this because you subscribed to {{ site_name }} alerts.</p>
+    <p>
+      To stop receiving emails:
+      <a href="http://127.0.0.1:8000{{ unsubscribe_url }}">Unsubscribe</a>
+    </p>
+  </div>
+</div>
+</body>
+</html>

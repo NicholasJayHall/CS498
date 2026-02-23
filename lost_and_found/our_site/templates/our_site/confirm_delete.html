@@ -1,0 +1,25 @@
+{% extends 'our_site/base.html' %}
+
+{% block title %}Confirm Delete – Campus Lost & Found{% endblock %}
+
+{% block content %}
+<div class="page-wrapper">
+  <div style="max-width:500px;margin:3rem auto;">
+    <div class="paper-card" style="text-align:center;">
+      <div style="font-size:3rem;margin-bottom:1rem;">🗑️</div>
+      <h1 style="font-family:'Special Elite',monospace;font-size:1.5rem;margin-bottom:0.5rem;">Delete Item?</h1>
+      <p style="color:var(--ink-light);font-style:italic;margin-bottom:1.5rem;line-height:1.6;">
+        Are you sure you want to permanently delete <strong>"{{ item.title }}"</strong>?
+        This action cannot be undone.
+      </p>
+      <div class="d-flex gap-1" style="justify-content:center;">
+        <form method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger">Yes, Delete It</button>
+        </form>
+        <a href="{% url 'item_detail' item.pk %}" class="btn btn-secondary">Cancel</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

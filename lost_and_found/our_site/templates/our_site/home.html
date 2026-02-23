@@ -1,0 +1,138 @@
+{% extends 'our_site/base.html' %}
+{% load static %}
+
+{% block title %}Campus Lost & Found – Home{% endblock %}
+
+{% block content %}
+<div class="page-wrapper">
+
+  <!-- ── Hero ──────────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="pin" style="position:absolute;top:-14px;left:50%;transform:translateX(-50%);width:18px;height:18px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#e74c3c,#922b21);box-shadow:0 3px 8px rgba(0,0,0,0.4),inset 0 1px 2px rgba(255,255,255,0.3);z-index:10;"></div>
+    <h1 class="hero-title">🔍 Campus Lost &amp; Found</h1>
+    <p class="hero-subtitle">
+      Lose something? Find something? Post it here and help reunite<br>
+      fellow students with their belongings.
+    </p>
+    <div class="hero-cta">
+      <a href="{% url 'item_list' %}" class="btn btn-primary">🗂 Browse All Items</a>
+      <a href="{% url 'report_item' %}" class="btn btn-danger">+ Report Lost / Found</a>
+    </div>
+
+    <!-- Inline subscribe form -->
+    <div style="margin-top:2.5rem;max-width:460px;margin-left:auto;margin-right:auto;">
+      <div class="subscribe-card">
+        <h3>📬 Get Email Alerts</h3>
+        <p>Subscribe and we'll email you whenever a new item is reported.</p>
+        <form method="post" action="{% url 'subscribe_email' %}">
+          {% csrf_token %}
+          <div class="subscribe-input-row">
+            <input type="email" name="email" class="form-control" placeholder="your@email.edu" required>
+            <button type="submit" class="btn btn-primary btn-sm">Subscribe</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Stats Bar ─────────────────────────────────────────── -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-bottom:3rem;">
+    {% with total_lost=recent_items|length %}
+    <div class="paper-card" style="text-align:center;padding:1.2rem;">
+      <div style="font-size:2rem;margin-bottom:0.3rem;">📋</div>
+      <div style="font-family:'Special Elite',monospace;font-size:1.1rem;">Active Items</div>
+      <div style="font-size:0.85rem;color:var(--ink-light);font-style:italic;">Browse the board</div>
+    </div>
+    {% endwith %}
+    <div class="paper-card" style="text-align:center;padding:1.2rem;">
+      <div style="font-size:2rem;margin-bottom:0.3rem;">📮</div>
+      <div style="font-family:'Special Elite',monospace;font-size:1.1rem;">Email Alerts</div>
+      <div style="font-size:0.85rem;color:var(--ink-light);font-style:italic;">Get notified instantly</div>
+    </div>
+    <div class="paper-card" style="text-align:center;padding:1.2rem;">
+      <div style="font-size:2rem;margin-bottom:0.3rem;">🎉</div>
+      <div style="font-family:'Special Elite',monospace;font-size:1.1rem;">Reunited</div>
+      <div style="font-size:0.85rem;color:var(--ink-light);font-style:italic;">Items returned to owners</div>
+    </div>
+  </div>
+
+  <!-- ── Recent Items ───────────────────────────────────────── -->
+  <div class="section-header">
+    <h2 class="section-title">📌 Recently Posted</h2>
+    <div class="section-divider"></div>
+    <a href="{% url 'item_list' %}" class="btn btn-secondary btn-sm">View All →</a>
+  </div>
+
+  {% if recent_items %}
+  <div class="items-grid">
+    {% for item in recent_items %}
+    <a href="{% url 'item_detail' item.pk %}" class="item-card-link" style="text-decoration:none;color:inherit;">
+      <article class="item-card">
+        <div class="pin {% if item.status == 'found' %}green{% else %}{% cycle 'blue' '' '' '' '' '' %}{% endif %}"></div>
+        {% if item.image %}
+          <img src="{{ item.image.url }}" alt="{{ item.title }}" class="item-card-img">
+        {% else %}
+          <div class="item-card-img-placeholder">
+            {% if item.category == 'electronics' %}📱
+            {% elif item.category == 'keys' %}🔑
+            {% elif item.category == 'wallet' %}👛
+            {% elif item.category == 'backpack' %}🎒
+            {% elif item.category == 'clothing' %}👕
+            {% elif item.category == 'jewelry' %}💍
+            {% elif item.category == 'books' %}📚
+            {% elif item.category == 'sports' %}⚽
+            {% else %}❓{% endif %}
+          </div>
+        {% endif %}
+        <div class="item-card-body">
+          <div class="item-card-category">{{ item.get_category_display }}</div>
+          <h3 class="item-card-title">{{ item.title }}</h3>
+          <div class="item-card-meta">
+            <span class="item-status-badge badge-{{ item.status }}">{{ item.get_status_display }}</span>
+            <span>📍 {{ item.location }}</span>
+            <span>📅 {{ item.date_lost|date:"M j" }}</span>
+          </div>
+        </div>
+      </article>
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <div class="empty-state-icon">🪹</div>
+    <h3>Nothing posted yet</h3>
+    <p>Be the first to post a lost or found item!</p>
+    <a href="{% url 'report_item' %}" class="btn btn-primary">+ Report an Item</a>
+  </div>
+  {% endif %}
+
+  <!-- ── How It Works ───────────────────────────────────────── -->
+  <div class="section-header mt-4">
+    <h2 class="section-title">💡 How It Works</h2>
+    <div class="section-divider"></div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;" class="mb-4">
+    <div class="paper-card pinned" style="text-align:center;padding-top:2rem;">
+      <div style="font-size:2.5rem;margin-bottom:0.8rem;">1️⃣</div>
+      <h4 style="font-family:'Special Elite',monospace;margin-bottom:0.5rem;">Register &amp; Post</h4>
+      <p style="font-size:0.85rem;color:var(--ink-light);line-height:1.6;">Create a free account and post details about what you lost or found, including a photo.</p>
+    </div>
+    <div class="paper-card pinned" style="text-align:center;padding-top:2rem;">
+      <div style="font-size:2.5rem;margin-bottom:0.8rem;">2️⃣</div>
+      <h4 style="font-family:'Special Elite',monospace;margin-bottom:0.5rem;">Browse &amp; Search</h4>
+      <p style="font-size:0.85rem;color:var(--ink-light);line-height:1.6;">Filter by category, location, or search by keyword to find matching items.</p>
+    </div>
+    <div class="paper-card pinned" style="text-align:center;padding-top:2rem;">
+      <div style="font-size:2.5rem;margin-bottom:0.8rem;">3️⃣</div>
+      <h4 style="font-family:'Special Elite',monospace;margin-bottom:0.5rem;">Get Notified</h4>
+      <p style="font-size:0.85rem;color:var(--ink-light);line-height:1.6;">Subscribe with your email and receive instant alerts whenever a new item is reported.</p>
+    </div>
+    <div class="paper-card pinned" style="text-align:center;padding-top:2rem;">
+      <div style="font-size:2.5rem;margin-bottom:0.8rem;">4️⃣</div>
+      <h4 style="font-family:'Special Elite',monospace;margin-bottom:0.5rem;">Reunite!</h4>
+      <p style="font-size:0.85rem;color:var(--ink-light);line-height:1.6;">Contact the poster via the listed email to arrange pick-up of your belongings.</p>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

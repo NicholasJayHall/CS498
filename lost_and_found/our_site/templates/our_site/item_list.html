@@ -1,0 +1,124 @@
+{% extends 'our_site/base.html' %}
+
+{% block title %}Browse Items – Campus Lost & Found{% endblock %}
+
+{% block content %}
+<div class="page-wrapper">
+
+  <div class="section-header">
+    <h1 class="section-title">🗂 Lost Item Board</h1>
+    <div class="section-divider"></div>
+    <a href="{% url 'report_item' %}" class="btn btn-danger btn-sm">+ Report Item</a>
+  </div>
+
+  <!-- ── Filter Bar ─────────────────────────────────────────── -->
+  <div class="filter-bar">
+    <form method="get" action="{% url 'item_list' %}">
+      <div class="filter-row">
+        <div class="form-group">
+          <label for="search-input">🔎 Search</label>
+          <input id="search-input" type="text" name="q" class="form-control"
+                 placeholder="title, description, location…" value="{{ query }}">
+        </div>
+        <div class="form-group">
+          <label for="cat-select">🏷 Category</label>
+          <select id="cat-select" name="category" class="form-control">
+            <option value="">All Categories</option>
+            {% for val, label in categories %}
+              <option value="{{ val }}" {% if category == val %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="status-select">📌 Status</label>
+          <select id="status-select" name="status" class="form-control">
+            <option value="all" {% if status_filter == 'all' %}selected{% endif %}>All</option>
+            <option value="lost" {% if status_filter == 'lost' %}selected{% endif %}>Lost</option>
+            <option value="found" {% if status_filter == 'found' %}selected{% endif %}>Found / Claimed</option>
+          </select>
+        </div>
+        <div class="form-group" style="display:flex;align-items:flex-end;min-width:auto;">
+          <button type="submit" class="btn btn-primary">Filter</button>
+          {% if query or category or status_filter != 'lost' %}
+            <a href="{% url 'item_list' %}" class="btn btn-secondary" style="margin-left:0.5rem;">Reset</a>
+          {% endif %}
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- ── Results Count ──────────────────────────────────────── -->
+  <p style="font-family:'Special Elite',monospace;font-size:0.88rem;color:var(--ink-light);margin-bottom:0.5rem;">
+    Showing {{ total_count }} item{{ total_count|pluralize }} on the board
+    {% if query %} matching "<em>{{ query }}</em>"{% endif %}
+  </p>
+
+  <!-- ── Items Grid ─────────────────────────────────────────── -->
+  {% if page_obj %}
+  <div class="items-grid">
+    {% for item in page_obj %}
+    <a href="{% url 'item_detail' item.pk %}" class="item-card-link" style="text-decoration:none;color:inherit;">
+      <article class="item-card">
+        <div class="pin {% if item.status == 'found' %}green{% elif forloop.counter|divisibleby:3 %}blue{% endif %}"></div>
+        {% if item.image %}
+          <img src="{{ item.image.url }}" alt="{{ item.title }}" class="item-card-img">
+        {% else %}
+          <div class="item-card-img-placeholder">
+            {% if item.category == 'electronics' %}📱
+            {% elif item.category == 'keys' %}🔑
+            {% elif item.category == 'wallet' %}👛
+            {% elif item.category == 'backpack' %}🎒
+            {% elif item.category == 'clothing' %}👕
+            {% elif item.category == 'jewelry' %}💍
+            {% elif item.category == 'books' %}📚
+            {% elif item.category == 'sports' %}⚽
+            {% else %}❓{% endif %}
+          </div>
+        {% endif %}
+        <div class="item-card-body">
+          <div class="item-card-category">{{ item.get_category_display }}</div>
+          <h2 class="item-card-title">{{ item.title }}</h2>
+          <p style="font-size:0.82rem;color:var(--ink-light);margin-bottom:0.5rem;line-height:1.4;">
+            {{ item.description|truncatechars:80 }}
+          </p>
+          <div class="item-card-meta">
+            <span class="item-status-badge badge-{{ item.status }}">{{ item.get_status_display }}</span>
+            <span>📍 {{ item.location }}</span>
+            <span>📅 {{ item.date_lost|date:"M j, Y" }}</span>
+          </div>
+        </div>
+      </article>
+    </a>
+    {% endfor %}
+  </div>
+
+  <!-- ── Pagination ─────────────────────────────────────────── -->
+  {% if page_obj.has_other_pages %}
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+      <li><a href="?page={{ page_obj.previous_page_number }}&q={{ query }}&category={{ category }}&status={{ status_filter }}" class="page-link">← Prev</a></li>
+    {% endif %}
+    {% for num in page_obj.paginator.page_range %}
+      {% if page_obj.number == num %}
+        <li><span class="page-link active">{{ num }}</span></li>
+      {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+        <li><a href="?page={{ num }}&q={{ query }}&category={{ category }}&status={{ status_filter }}" class="page-link">{{ num }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+      <li><a href="?page={{ page_obj.next_page_number }}&q={{ query }}&category={{ category }}&status={{ status_filter }}" class="page-link">Next →</a></li>
+    {% endif %}
+  </ul>
+  {% endif %}
+
+  {% else %}
+  <div class="empty-state">
+    <div class="empty-state-icon">🪹</div>
+    <h3>Nothing found</h3>
+    <p>No items match your search. Try different keywords or be the first to post!</p>
+    <a href="{% url 'report_item' %}" class="btn btn-primary">+ Report an Item</a>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}
