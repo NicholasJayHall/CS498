@@ -1,3 +1,5 @@
+from datetime import date
+from django.core.exceptions import ValidationError
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -44,6 +46,13 @@ class LostItemForm(forms.ModelForm):
             'status': 'Item Status',
             'contact_email': 'Your Contact Email',
         }
+
+    def clean_date_lost(self):
+        date_lost = self.cleaned_data.get('date_lost')
+        # Check if the date is in the future
+        if date_lost and date_lost > date.today():
+            raise ValidationError("The date lost or found cannot be in the future.")
+        return date_lost
 
 
 class EmailSubscriptionForm(forms.ModelForm):
