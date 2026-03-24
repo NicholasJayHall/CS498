@@ -23,9 +23,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // ── Live search filter (item list page) ──────────────────────
   const searchInput = document.getElementById('search-input');
-  const itemCards = document.querySelectorAll('.item-card-link');
 
-  if (searchInput && itemCards.length > 0) {
+  if (searchInput) {
     // Debounce helper
     let debounceTimer;
     searchInput.addEventListener('input', function () {
