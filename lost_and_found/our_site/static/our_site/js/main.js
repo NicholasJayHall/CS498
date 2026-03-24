@@ -25,6 +25,12 @@ document.addEventListener('DOMContentLoaded', function () {
   const searchInput = document.getElementById('search-input');
 
   if (searchInput) {
+   if (searchInput.value) {
+      searchInput.focus();
+      const textLength = searchInput.value.length;
+      searchInput.setSelectionRange(textLength, textLength);
+    } 
+
     // Debounce helper
     let debounceTimer;
     searchInput.addEventListener('input', function () {
