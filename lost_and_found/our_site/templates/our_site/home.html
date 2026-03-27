@@ -11,12 +11,12 @@
     <div class="pin" style="position:absolute;top:-14px;left:50%;transform:translateX(-50%);width:18px;height:18px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#e74c3c,#922b21);box-shadow:0 3px 8px rgba(0,0,0,0.4),inset 0 1px 2px rgba(255,255,255,0.3);z-index:10;"></div>
     <h1 class="hero-title">🔍 Campus Lost &amp; Found</h1>
     <p class="hero-subtitle">
-      Lose something? Find something? Post it here and help reunite<br>
+      Did you find something on campus? Post it here and help reunite<br>
       fellow students with their belongings.
     </p>
     <div class="hero-cta">
       <a href="{% url 'item_list' %}" class="btn btn-primary">🗂 Browse All Items</a>
-      <a href="{% url 'report_item' %}" class="btn btn-danger">+ Report Lost / Found</a>
+      <a href="{% url 'report_item' %}" class="btn btn-danger">+ Report Lost Item</a>
     </div>
 
     <!-- Inline subscribe form -->
@@ -34,27 +34,6 @@
       </div>
     </div>
   </section>
-
-  <!-- ── Stats Bar ─────────────────────────────────────────── -->
-  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-bottom:3rem;">
-    {% with total_lost=recent_items|length %}
-    <div class="paper-card" style="text-align:center;padding:1.2rem;">
-      <div style="font-size:2rem;margin-bottom:0.3rem;">📋</div>
-      <div style="font-family:'Special Elite',monospace;font-size:1.1rem;">Active Items</div>
-      <div style="font-size:0.85rem;color:var(--ink-light);font-style:italic;">Browse the board</div>
-    </div>
-    {% endwith %}
-    <div class="paper-card" style="text-align:center;padding:1.2rem;">
-      <div style="font-size:2rem;margin-bottom:0.3rem;">📮</div>
-      <div style="font-family:'Special Elite',monospace;font-size:1.1rem;">Email Alerts</div>
-      <div style="font-size:0.85rem;color:var(--ink-light);font-style:italic;">Get notified instantly</div>
-    </div>
-    <div class="paper-card" style="text-align:center;padding:1.2rem;">
-      <div style="font-size:2rem;margin-bottom:0.3rem;">🎉</div>
-      <div style="font-family:'Special Elite',monospace;font-size:1.1rem;">Reunited</div>
-      <div style="font-size:0.85rem;color:var(--ink-light);font-style:italic;">Items returned to owners</div>
-    </div>
-  </div>
 
   <!-- ── Recent Items ───────────────────────────────────────── -->
   <div class="section-header">

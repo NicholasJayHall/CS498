@@ -17,13 +17,13 @@ class LostItem(models.Model):
 
     STATUS_CHOICES = [
         ('lost', 'Lost'),
-        ('found', 'Found / Claimed'),
+        ('found', 'Claimed'),
     ]
 
     title = models.CharField(max_length=200)
     description = models.TextField()
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, default='other')
-    location = models.CharField(max_length=200, help_text='Where was it lost/found?')
+    location = models.CharField(max_length=200, help_text='Where did you find this item?')
     date_lost = models.DateField(help_text='Date item was lost or found')
     image = models.ImageField(upload_to='lost_items/', blank=True, null=True)
     reporter = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='reported_items')

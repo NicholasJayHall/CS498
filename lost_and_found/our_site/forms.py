@@ -19,12 +19,12 @@ class UserRegisterForm(UserCreationForm):
 class LostItemForm(forms.ModelForm):
     date_lost = forms.DateField(
         widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
-        label='Date Lost/Found'
+        label='Date Found'
     )
 
     class Meta:
         model = LostItem
-        fields = ['title', 'description', 'category', 'location', 'date_lost', 'image', 'contact_email', 'status']
+        fields = ['title', 'description', 'category', 'location', 'date_lost', 'image', 'contact_email']
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'e.g. Blue North Face Backpack'}),
             'description': forms.Textarea(attrs={
@@ -32,7 +32,6 @@ class LostItemForm(forms.ModelForm):
                 'placeholder': 'Describe the item – color, brand, any distinguishing marks…'
             }),
             'category': forms.Select(attrs={'class': 'form-control'}),
-            'status': forms.Select(attrs={'class': 'form-control'}),
             'location': forms.TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'e.g. Student Center, Room 205'
@@ -43,9 +42,8 @@ class LostItemForm(forms.ModelForm):
             }),
         }
         labels = {
-            'status': 'Item Status',
             'contact_email': 'Your Contact Email',
-        }
+        } 
 
     def clean_date_lost(self):
         date_lost = self.cleaned_data.get('date_lost')

@@ -106,7 +106,7 @@ def mark_found(request, pk):
     if request.user == item.reporter or request.user.is_staff:
         if item.status == 'lost':
             item.status = 'found'
-            messages.success(request, f'🎉 "{item.title}" has been marked as found/claimed!')
+            messages.success(request, f'🎉 "{item.title}" has been marked as Claimed!')
         else:
             item.status = 'lost'
             messages.info(request, f'"{item.title}" has been marked as still lost.')
