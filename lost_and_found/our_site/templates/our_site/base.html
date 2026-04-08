@@ -18,6 +18,13 @@
       <span class="brand-icon">📋</span>
       Campus Lost &amp; Found
     </a>
+
+    <button class="nav-waffle">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+
     <ul class="nav-links">
       <li><a href="{% url 'item_list' %}">🔎 Browse Items</a></li>
       {% if user.is_authenticated %}

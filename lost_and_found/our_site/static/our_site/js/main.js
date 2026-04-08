@@ -78,4 +78,16 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
+  // ── Waffle menu bar for smaller screen 
+
+const waffle = document.querySelector('.nav-waffle');
+const navLinks = document.querySelector('.nav-links');
+
+if (waffle && navLinks) {
+  waffle.addEventListener('click', () => {
+    navLinks.classList.toggle('show');
+  });
+}
+
+
 });

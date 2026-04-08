@@ -75,7 +75,8 @@ a:hover { text-decoration: underline; color: var(--ink); }
 }
 
 .nav-inner {
-  max-width: 1200px;
+  max-width: 100%;
+  max-width: none;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -89,10 +90,12 @@ a:hover { text-decoration: underline; color: var(--ink); }
   align-items: center;
   gap: 0.6rem;
   font-family: 'Special Elite', monospace;
-  font-size: 1.35rem;
+  font-size: 1.75rem;
   color: #f5f0e8;
   text-decoration: none;
   letter-spacing: 0.03em;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 .nav-brand:hover { color: #e8d8b0; text-decoration: none; }
 .nav-brand .brand-icon { font-size: 1.5rem; }
@@ -102,6 +105,7 @@ a:hover { text-decoration: underline; color: var(--ink); }
   align-items: center;
   gap: 0.3rem;
   list-style: none;
+  margin-left: auto;
 }
 
 .nav-links a, .nav-links button {
@@ -133,6 +137,55 @@ a:hover { text-decoration: underline; color: var(--ink); }
 .nav-links .btn-report:hover {
   background: linear-gradient(180deg, #cb4335 0%, #a93226 100%);
   color: #fff !important;
+}
+
+
+/*Waffle bar*/
+.nav-waffle {
+  display: none;
+  
+  background: none;
+  border: none;
+  
+  cursor: pointer;
+  padding: 0.3rem;
+}
+.nav-waffle .bar {
+  display: block;
+  width: 28px;
+  height: 4px;
+  background-color: #f5f0e8;
+  margin: 5px 0;
+  border-radius: 2px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.4);
+}
+/*mobile view waffle bar*/ 
+@media (max-width: 750px) {
+  .nav-waffle {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background: #2c1a0e;
+    width: 100%;
+    padding: 1rem 0;
+    flex-direction: column;
+    gap: 0.8rem;
+    border-top: 3px solid #1a0e07;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+  }
+
+  .nav-links.show {
+    display: flex;
+  }
+
+  .nav-inner {
+    justify-content: space-between;
+  }
 }
 
 /* ── Page Wrapper ──────────────────────────────────────────── */
