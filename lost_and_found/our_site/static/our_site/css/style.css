@@ -160,7 +160,7 @@ a:hover { text-decoration: underline; color: var(--ink); }
   box-shadow: 0 1px 2px rgba(0,0,0,0.4);
 }
 /*mobile view waffle bar*/ 
-@media (max-width: 750px) {
+@media (max-width: 775px) {
   .nav-waffle {
     display: block;
   }
@@ -602,6 +602,7 @@ select.form-control {
   padding: 1.2rem 1.5rem;
   box-shadow: var(--shadow-sm);
   margin-bottom: 1.5rem;
+  
 }
 
 .filter-row {
@@ -613,6 +614,14 @@ select.form-control {
 
 .filter-row .form-group { margin-bottom: 0; flex: 1; min-width: 160px; }
 
+/* Stack filter controls vertically on smaller screens */
+@media (max-width:725px) {
+  .filter-row {
+    
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
 /* ── Item Detail ───────────────────────────────────────────── */
 .detail-layout {
   display: grid;

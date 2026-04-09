@@ -15,6 +15,13 @@ class UserRegisterForm(UserCreationForm):
         model = User
         fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
 
+    # Ensure the email is a valid UKY email address
+    def clean_email(self):
+        email = self.cleaned_data.get('email').strip().lower()
+        if email and not email.endswith('@uky.edu'):
+            raise ValidationError("Please use your @uky.edu email address to register.")
+        return email
+
 
 class LostItemForm(forms.ModelForm):
     date_lost = forms.DateField(
@@ -38,7 +45,7 @@ class LostItemForm(forms.ModelForm):
             }),
             'contact_email': forms.EmailInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'your@email.edu'
+                'placeholder': 'your@uky.edu'
             }),
         }
         labels = {
@@ -60,9 +67,15 @@ class EmailSubscriptionForm(forms.ModelForm):
         widgets = {
             'email': forms.EmailInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'your@email.edu'
+                'placeholder': 'your@uky.edu'
             })
         }
         labels = {
             'email': 'Email Address'
         }
+    # Ensure the email is a valid UKY email address
+    def clean_email(self):
+        email = self.cleaned_data.get('email').strip().lower()
+        if email and not email.endswith('@uky.edu'):
+            raise ValidationError("Please use your @uky.edu email address to subscribe.")
+        return email

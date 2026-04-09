@@ -19,7 +19,7 @@ def home(request):
         'subscribe_form': subscribe_form,
     })
 
-
+@login_required
 def item_list(request):
     """Browsable, filterable grid of all lost items."""
     query = request.GET.get('q', '').strip()
@@ -54,7 +54,7 @@ def item_list(request):
         'total_count': items.count(),
     })
 
-
+@login_required
 def item_detail(request, pk):
     """Full item detail + email subscription form."""
     item = get_object_or_404(LostItem, pk=pk)
