@@ -1,10 +1,14 @@
 from django.contrib import admin
-from .models import LostItem, EmailSubscription
+from .models import LostItem, EmailSubscription, Location
 
+@admin.register(Location)
+class LocationAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    search_fields = ('name',)
 
 @admin.register(LostItem)
 class LostItemAdmin(admin.ModelAdmin):
-    list_display = ('title', 'category', 'status', 'location', 'date_lost', 'reporter', 'created_at')
+    list_display = ('title', 'category', 'status', 'found_location', 'date_lost', 'reporter', 'created_at')
     list_filter = ('status', 'category', 'created_at')
     search_fields = ('title', 'description', 'location', 'contact_email')
     list_editable = ('status',)

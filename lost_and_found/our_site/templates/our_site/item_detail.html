@@ -59,7 +59,7 @@
         </div>
         <div class="detail-meta-row">
           <span class="detail-meta-label">📍 Location</span>
-          <span>{{ item.location }}</span>
+          <span>{{ item.found_location }}</span>
         </div>
         <div class="detail-meta-row">
           <span class="detail-meta-label">📅 Date Lost</span>
@@ -76,17 +76,65 @@
         </div>
         {% endif %}
       </div>
+      
+	<div class="paper-card mb-3">
+  <h2 style="font-family:'Special Elite',monospace;font-size:1.1rem;margin-bottom:1rem;">📝 Details</h2>
+  
+  <div class="detail-meta-row">
+    <span class="detail-meta-label">📍 Spotted At</span>
+    <span>{{ item.found_location }}</span>
+  </div>
 
-      <!-- Contact Card -->
-      <div class="paper-card" style="border-color:#82c9a0;background:linear-gradient(160deg,#f0faf5 0%,#e0f4ea 100%);">
-        <h2 style="font-family:'Special Elite',monospace;font-size:1.1rem;margin-bottom:0.5rem;">📧 Contact</h2>
-        <p style="font-size:0.88rem;color:var(--ink-light);margin-bottom:0.8rem;">
-          To claim this item or provide information, reach out directly:
-        </p>
-        <a href="mailto:{{ item.contact_email }}" class="btn btn-success">
-          ✉️ Email {{ item.contact_email }}
-        </a>
-      </div>
+  <div class="detail-meta-row">
+    <span class="detail-meta-label">📦 Current Status</span>
+    <span>
+      {% if item.storage_status == 'REPORTER' %}
+        With Reporter
+      {% elif item.storage_status == 'SITE' %}
+        Left at Found Location
+      {% elif item.storage_status == 'DROPOFF' %}
+        At Drop-off Point: {{ item.dropoff_point.name }}
+      {% endif %}
+    </span>
+  </div>
+
+  </div>
+
+<div class="paper-card" style="border-color:#82c9a0;background:linear-gradient(160deg,#f0faf5 0%,#e0f4ea 100%);">
+  <h2 style="font-family:'Special Elite',monospace;font-size:1.1rem;margin-bottom:0.5rem;">📧 How to Claim</h2>
+
+  {% if item.storage_status == 'REPORTER' %}
+    <p style="font-size:0.88rem;color:var(--ink-light);margin-bottom:0.8rem;">
+      The reporter has this item. Reach out to them at their student email:
+    </p>
+    <a href="mailto:{{ item.reporter.email }}" class="btn btn-success">
+      ✉️ Email {{ item.reporter.email }}
+    </a>
+
+  {% elif item.storage_status == 'SITE' %}
+    <p style="font-size:0.88rem;color:var(--ink-light);margin-bottom:0.8rem;">
+      This item was <strong>not picked up</strong> by the reporter. It was left at:
+    </p>
+    <div style="padding:10px; background:white; border-radius:5px; border:1px solid #82c9a0;">
+       📍 {{ item.found_location }}
+    </div>
+    <p style="font-size:0.82rem; margin-top:0.8rem; color:#666;">
+      Check the area to see if it is still there.
+    </p>
+
+  {% elif item.storage_status == 'DROPOFF' %}
+    <p style="font-size:0.88rem;color:var(--ink-light);margin-bottom:0.8rem;">
+      This item was dropped off at an official location:
+    </p>
+    <div style="margin-bottom:1rem;">
+      <strong>{{ item.dropoff_point.name }}</strong><br>
+      <span style="font-size:0.85rem;">{{ item.dropoff_point.address }}</span>
+    </div>
+    <a href="mailto:{{ item.dropoff_point.contact_email }}" class="btn btn-success">
+      ✉️ Contact Facility ({{ item.dropoff_point.contact_email }})
+    </a>
+  {% endif %}
+</div>	
 
       <!-- Owner Actions -->
       {% if user.is_authenticated and user == item.reporter or user.is_staff %}

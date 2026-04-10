@@ -21,26 +21,37 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // ── Live search filter (item list page) ──────────────────────
+  // ── Live search & filter (item list page) ──────────────────────
   const searchInput = document.getElementById('search-input');
 
   if (searchInput) {
-   if (searchInput.value) {
+    const filterForm = searchInput.closest('form');
+    const urlParams = new URLSearchParams(window.location.search);
+
+    // 1. Persistence: Keep focus even if query is empty after refresh
+    // We check the URL for 'q' to see if the user was just searching
+    if (urlParams.has('q')) {
       searchInput.focus();
       const textLength = searchInput.value.length;
       searchInput.setSelectionRange(textLength, textLength);
-    } 
+    }
 
-    // Debounce helper
+    // 2. Auto-refresh for dropdowns (Category and Status)
+    filterForm.querySelectorAll('select').forEach(select => {
+      select.addEventListener('change', () => {
+        filterForm.submit();
+      });
+    });
+
+    // 3. Auto-refresh for search typing (Debounced)
     let debounceTimer;
     searchInput.addEventListener('input', function () {
       clearTimeout(debounceTimer);
       debounceTimer = setTimeout(() => {
-        // Let the server handle it – just auto-submit the form
-        this.closest('form').submit();
+        filterForm.submit();
       }, 600);
     });
-  }
+  } 
 
   // ── Fade-in animation on cards ───────────────────────────────
   const observer = new IntersectionObserver((entries) => {

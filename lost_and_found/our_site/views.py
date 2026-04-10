@@ -32,7 +32,7 @@ def item_list(request):
         items = items.filter(
             Q(title__icontains=query) |
             Q(description__icontains=query) |
-            Q(location__icontains=query)
+            Q(found_location__icontains=query)
         )
     if category:
         items = items.filter(category=category)
@@ -88,10 +88,8 @@ def report_item(request):
         if form.is_valid():
             item = form.save(commit=False)
             item.reporter = request.user
-            if not item.contact_email:
-                item.contact_email = request.user.email
             item.save()
-            messages.success(request, f'📋 "{item.title}" has been posted successfully!')
+            messages.success(request, f'"{item.title}" has been posted successfully!')
             return redirect('item_detail', pk=item.pk)
     else:
         form = LostItemForm(initial={'contact_email': request.user.email})
