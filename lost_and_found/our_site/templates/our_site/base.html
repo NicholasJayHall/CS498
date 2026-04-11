@@ -1,76 +1,73 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}Campus Lost & Found{% endblock %}</title>
-  <meta name="description" content="{% block meta_description %}Campus Lost & Found – Report and recover lost items at our university.{% endblock %}">
-  <link rel="stylesheet" href="{% static 'our_site/css/style.css' %}">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔍</text></svg>">
+    <meta charset="UTF-8">
+    <title>Campus Lost & Found</title>
+
+    <!-- Responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'our_site/css/style.css' %}">
+
 </head>
+
 <body>
 
-<!-- ── Navigation ─────────────────────────────────────────── -->
-<nav class="navbar">
-  <div class="nav-inner">
-    <a href="{% url 'home' %}" class="nav-brand">
-      <span class="brand-icon">📋</span>
-      Campus Lost &amp; Found
-    </a>
+    <!-- 🔷 NAVBAR -->
+   <nav class="navbar">
+    <div class="nav-inner">
+        
+        <a href="{% url 'home' %}" class="nav-brand">
+            Campus Lost & Found
+        </a>
 
-    <button class="nav-waffle">
-      <span class="bar"></span>
-      <span class="bar"></span>
-      <span class="bar"></span>
-    </button>
+        <div class="nav-links">
 
-    <ul class="nav-links">
-      <li><a href="{% url 'item_list' %}">🔎 Browse Items</a></li>
-      {% if user.is_authenticated %}
-        <li><a href="{% url 'report_item' %}" class="btn-report">+ Report Item</a></li>
-        <li>
-          <form method="post" action="{% url 'logout' %}" style="display:inline;">
-            {% csrf_token %}
-            <button type="submit">👋 Log Out</button>
-          </form>
-        </li>
-      {% else %}
-        <li><a href="{% url 'login' %}">🔑 Log In</a></li>
-        <li><a href="{% url 'register' %}">📝 Register</a></li>
-        <li><a href="{% url 'report_item' %}" class="btn-report">+ Report Item</a></li>
-      {% endif %}
-    </ul>
-  </div>
+            {% if user.is_authenticated %}
+                <a href="{% url 'home' %}">Browse Items</a>
+                <a href="{% url 'logout' %}">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}">Log In</a>
+                <a href="{% url 'register' %}">Register</a>
+            {% endif %}
+
+            <a href="{% url 'report_item' %}" class="btn-report">
+                + Report Item
+            </a>
+
+        </div>
+    </div>
 </nav>
 
-<!-- ── Messages ──────────────────────────────────────────── -->
-{% if messages %}
-<div style="max-width:1200px;margin:1rem auto;padding:0 1.5rem;">
-  <ul class="alert-list">
-    {% for message in messages %}
-      <li class="alert alert-{{ message.tags }}">{{ message }}</li>
-    {% endfor %}
-  </ul>
-</div>
-{% endif %}
+    <!-- 🔷 PAGE CONTENT -->
+    <div class="page-wrapper">
 
-<!-- ── Main Content ───────────────────────────────────────── -->
-<main>
-  {% block content %}{% endblock %}
-</main>
+        <!-- Messages -->
+        {% if messages %}
+            <div style="margin-bottom: 20px;">
+                {% for message in messages %}
+                    <div style="padding: 10px; border-radius: 8px; background:#EEF4FF; margin-bottom:10px;">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
 
-<!-- ── Footer ────────────────────────────────────────────── -->
-<footer class="footer">
-  <p>
-    📋 Campus Lost &amp; Found &nbsp;|&nbsp;
-    <a href="{% url 'item_list' %}">Browse All</a> &nbsp;|&nbsp;
-    <a href="{% url 'report_item' %}">Report Item</a> &nbsp;|&nbsp;
-    <a href="{% url 'register' %}">Get Notified</a>
-  </p>
-  <p style="margin-top:0.4rem; opacity:0.6;">Built for the campus community &copy; 2026</p>
-</footer>
+        <!-- Dynamic Content -->
+        {% block content %}
+        {% endblock %}
 
-<script src="{% static 'our_site/js/main.js' %}"></script>
+    </div>
+
+    <!-- 🔷 FOOTER -->
+    <footer class="footer">
+        <p>
+            Campus Lost & Found © 2026 <br>
+            Helping students reconnect with their belongings
+        </p>
+    </footer>
+
 </body>
 </html>

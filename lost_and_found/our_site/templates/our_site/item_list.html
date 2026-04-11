@@ -1,12 +1,12 @@
 {% extends 'our_site/base.html' %}
 
-{% block title %}Browse Items – Campus Lost & Found{% endblock %}
+{% block title %}Browse Items  Campus Lost & Found{% endblock %}
 
 {% block content %}
 <div class="page-wrapper">
 
   <div class="section-header">
-    <h1 class="section-title">🗂 Lost Item Board</h1>
+    <h1 class="section-title"> Lost Item Board</h1>
     <div class="section-divider"></div>
     <a href="{% url 'report_item' %}" class="btn btn-danger btn-sm">+ Report Item</a>
   </div>
@@ -16,12 +16,12 @@
     <form method="get" action="{% url 'item_list' %}">
       <div class="filter-row">
         <div class="form-group">
-          <label for="search-input">🔎 Search</label>
+          <label for="search-input"> Search</label>
           <input id="search-input" type="text" name="q" class="form-control"
                  placeholder="title, description, location…" value="{{ query }}">
         </div>
         <div class="form-group">
-          <label for="cat-select">🏷 Category</label>
+          <label for="cat-select"> Category</label>
           <select id="cat-select" name="category" class="form-control">
             <option value="">All Categories</option>
             {% for val, label in categories %}
@@ -30,7 +30,7 @@
           </select>
         </div>
         <div class="form-group">
-          <label for="status-select">📌 Status</label>
+          <label for="status-select"> Status</label>
           <select id="status-select" name="status" class="form-control">
             <option value="all" {% if status_filter == 'all' %}selected{% endif %}>All</option>
             <option value="lost" {% if status_filter == 'lost' %}selected{% endif %}>Lost</option>
@@ -64,15 +64,15 @@
           <img src="{{ item.image.url }}" alt="{{ item.title }}" class="item-card-img">
         {% else %}
           <div class="item-card-img-placeholder">
-            {% if item.category == 'electronics' %}📱
-            {% elif item.category == 'keys' %}🔑
-            {% elif item.category == 'wallet' %}👛
-            {% elif item.category == 'backpack' %}🎒
-            {% elif item.category == 'clothing' %}👕
-            {% elif item.category == 'jewelry' %}💍
-            {% elif item.category == 'books' %}📚
-            {% elif item.category == 'sports' %}⚽
-            {% else %}❓{% endif %}
+            {% if item.category == 'electronics' %}
+            {% elif item.category == 'keys' %}
+            {% elif item.category == 'wallet' %}
+            {% elif item.category == 'backpack' %}
+            {% elif item.category == 'clothing' %}
+            {% elif item.category == 'jewelry' %}
+            {% elif item.category == 'books' %}
+            {% elif item.category == 'sports' %}
+            {% else %} {% endif %}
           </div>
         {% endif %}
         <div class="item-card-body">
@@ -83,8 +83,8 @@
           </p>
           <div class="item-card-meta">
             <span class="item-status-badge badge-{{ item.status }}">{{ item.get_status_display }}</span>
-            <span>📍 {{ item.location }}</span>
-            <span>📅 {{ item.date_lost|date:"M j, Y" }}</span>
+            <span> {{ item.location }}</span>
+            <span> {{ item.date_lost|date:"M j, Y" }}</span>
           </div>
         </div>
       </article>
@@ -113,7 +113,7 @@
 
   {% else %}
   <div class="empty-state">
-    <div class="empty-state-icon">🪹</div>
+    <div class="empty-state-icon"></div>
     <h3>Nothing found</h3>
     <p>No items match your search. Try different keywords or be the first to post!</p>
     <a href="{% url 'report_item' %}" class="btn btn-primary">+ Report an Item</a>
