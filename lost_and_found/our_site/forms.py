@@ -39,12 +39,12 @@ class LostItemForm(forms.ModelForm):
                 'placeholder': 'Describe the item – color, brand, any distinguishing marks…'
             }),
             'category': forms.Select(attrs={'class': 'form-control'}),
-            'location': forms.TextInput(attrs={
+            'found_location': forms.TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'e.g. Student Center, Room 205'
             }),
             'storage_status': forms.Select(attrs={'class': 'form-control', 'id': 'id_storage_status'}),
-            'dropoff_point': forms.Select(attrs={'class': 'form-control', 'id': 'id_dropoff_point'}),
+            'drop_off_location': forms.Select(attrs={'class': 'form-control', 'id': 'id_dropoff_point'}),
         }
 
     def clean_date_lost(self):

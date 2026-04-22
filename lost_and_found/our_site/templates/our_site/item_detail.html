@@ -93,7 +93,7 @@
       {% elif item.storage_status == 'SITE' %}
         Left at Found Location
       {% elif item.storage_status == 'DROPOFF' %}
-        At Drop-off Point: {{ item.dropoff_point.name }}
+        At Drop-off Point: {{ item.drop_off_location.name }}
       {% endif %}
     </span>
   </div>
@@ -127,11 +127,11 @@
       This item was dropped off at an official location:
     </p>
     <div style="margin-bottom:1rem;">
-      <strong>{{ item.dropoff_point.name }}</strong><br>
-      <span style="font-size:0.85rem;">{{ item.dropoff_point.address }}</span>
+      <strong>{{ item.drop_off_location.name }}</strong><br>
+      <span style="font-size:0.85rem;">{{ item.drop_off_location.address }}</span>
     </div>
-    <a href="mailto:{{ item.dropoff_point.contact_email }}" class="btn btn-success">
-      ✉️ Contact Facility ({{ item.dropoff_point.contact_email }})
+    <a href="mailto:{{ item.drop_off_location.contact_email }}" class="btn btn-success">
+      ✉️ Contact Facility ({{ item.drop_off_location.contact_email }})
     </a>
   {% endif %}
 </div>	
