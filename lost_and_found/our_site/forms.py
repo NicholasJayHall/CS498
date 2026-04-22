@@ -44,7 +44,7 @@ class LostItemForm(forms.ModelForm):
                 'placeholder': 'e.g. Student Center, Room 205'
             }),
             'storage_status': forms.Select(attrs={'class': 'form-control', 'id': 'id_storage_status'}),
-            'drop_off_location': forms.Select(attrs={'class': 'form-control', 'id': 'id_dropoff_point'}),
+            'drop_off_location': forms.Select(attrs={'class': 'form-control', 'id': 'id_drop_off_location'}),
         }
 
     def clean_date_lost(self):

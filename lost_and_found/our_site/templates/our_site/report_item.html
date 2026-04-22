@@ -54,9 +54,9 @@
         </div>
 
         <div id="dropoff-wrap" class="form-group" style="display:none; padding:15px; background:#f9f6f1; border-radius:8px; border-left:4px solid #82c9a0;">
-          <label for="{{ form.dropoff_point.id_for_label }}">Select Drop-off Location</label>
-          {{ form.dropoff_point }}
-          {% for error in form.dropoff_point.errors %}<p class="form-error">{{ error }}</p>{% endfor %}
+          <label for="{{ form.drop_off_location.id_for_label }}">Select Drop-off Location</label>
+          {{ form.drop_off_location }}
+          {% for error in form.drop_off_location.errors %}<p class="form-error">{{ error }}</p>{% endfor %}
         </div>
 
         <div class="form-group">

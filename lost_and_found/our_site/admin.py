@@ -10,7 +10,7 @@ class LocationAdmin(admin.ModelAdmin):
 class LostItemAdmin(admin.ModelAdmin):
     list_display = ('title', 'category', 'status', 'found_location', 'date_lost', 'reporter', 'created_at')
     list_filter = ('status', 'category', 'created_at')
-    search_fields = ('title', 'description', 'found_location', 'drop_off_location')
+    search_fields = ('title', 'description', 'found_location', 'drop_off_location__name')
     list_editable = ('status',)
     ordering = ('-created_at',)
     readonly_fields = ('created_at', 'updated_at')
