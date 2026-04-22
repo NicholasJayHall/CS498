@@ -92,7 +92,7 @@ def report_item(request):
             messages.success(request, f'"{item.title}" has been posted successfully!')
             return redirect('item_detail', pk=item.pk)
     else:
-        form = LostItemForm(initial={'contact_email': request.user.email})
+        form = LostItemForm()
 
     return render(request, 'our_site/report_item.html', {'form': form})
 
