@@ -42,7 +42,7 @@
           {% elif item.category == 'jewelry' %}💍
           {% elif item.category == 'books' %}📚
           {% elif item.category == 'sports' %}⚽
-          {% else %}❓{% endif %}
+          {% else %}{% endif %}
         </div>
       {% endif %}
 
@@ -152,27 +152,18 @@
 
     <!-- ── Right Column: Subscribe + Related ──────────────────── -->
     <aside>
-      <div class="subscribe-card mb-3">
-        <h3>📬 Get Notified</h3>
-        <p>Subscribe to receive email alerts when new items are posted to the board.</p>
-        <form method="post" action="">
-          {% csrf_token %}
-          <div class="form-group" style="text-align:left;">
-            {{ subscribe_form.email }}
-          </div>
-          <button type="submit" class="btn btn-primary" style="width:100%;">Subscribe for Alerts</button>
-        </form>
-      </div>
+      
 
       <div class="paper-card">
-        <h3 style="font-family:'Special Elite',monospace;font-size:1rem;margin-bottom:1rem;">🔎 Search Similar</h3>
-        <form method="get" action="{% url 'item_list' %}">
-          <input type="hidden" name="category" value="{{ item.category }}">
+        
+         
           <p style="font-size:0.85rem;color:var(--ink-light);margin-bottom:0.8rem;">
+            <br>
             Browse other <strong>{{ item.get_category_display }}</strong> items on the board.
           </p>
-          <button type="submit" class="btn btn-secondary" style="width:100%;">Browse {{ item.get_category_display }}</button>
-        </form>
+          
+          
+        
         <div style="margin-top:1rem;">
           <a href="{% url 'item_list' %}" class="btn btn-secondary" style="width:100%;text-align:center;">← Back to Board</a>
         </div>

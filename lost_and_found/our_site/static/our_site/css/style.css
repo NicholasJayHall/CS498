@@ -43,24 +43,11 @@ a {
 /*for lost item board*/
 .section-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  
+  justify-content: space-between; /* pushes them apart */
 }
 
-.section-title {
-  margin: 0;
-  font-size: 24px;
-  font-weight: 700;
-  
-}
 
-.section-right {
-  display: flex;
-  align-items: center;
-
-}
 
 
 /* ── Reset ──────────────────────────────────────────────── */
