@@ -42,7 +42,7 @@ class LostItem(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, default='other')
-    found_location = models.CharField(max_length=200)
+    found_location = models.CharField(max_length=200, null=True, blank=True)
     storage_status = models.CharField(max_length=10,choices=STORAGE_CHOICES,default='SITE')
     drop_off_location = models.ForeignKey(
         Location, 

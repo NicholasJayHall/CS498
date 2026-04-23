@@ -6,10 +6,18 @@
 <div class="page-wrapper">
 
   <div class="section-header">
-    <h1 class="section-title"> Lost Item Board</h1>
-    <div class="section-divider"></div>
-    <a href="{% url 'report_item' %}" class="btn btn-danger btn-sm">+ Report Item</a>
+
+  <div class="section-left">
+    <h1 class="section-title">Lost Item Board</h1>
   </div>
+
+  <div class="section-right">
+    <a href="{% url 'report_item' %}" class="btn btn-primary btn-sm">
+      Report Item
+    </a>
+  </div>
+
+</div>
 
   <!-- ── Filter Bar ─────────────────────────────────────────── -->
   <div class="filter-bar">
@@ -48,6 +56,7 @@
   </div>
 
   <!-- ── Results Count ──────────────────────────────────────── -->
+   <br>
   <p style="font-family:'Special Elite',monospace;font-size:0.88rem;color:var(--ink-light);margin-bottom:0.5rem;">
     Showing {{ total_count }} item{{ total_count|pluralize }} on the board
     {% if query %} matching "<em>{{ query }}</em>"{% endif %}
@@ -114,9 +123,11 @@
   {% else %}
   <div class="empty-state">
     <div class="empty-state-icon"></div>
+    
     <h3>Nothing found</h3>
+    <br>
     <p>No items match your search. Try different keywords or be the first to post!</p>
-    <a href="{% url 'report_item' %}" class="btn btn-primary">+ Report an Item</a>
+    
   </div>
   {% endif %}
 
